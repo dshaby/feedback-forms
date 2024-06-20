@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views import View
 from .forms import ReviewForm
@@ -42,4 +42,14 @@ class ReviewsListView(TemplateView):
         context = super().get_context_data(**kwargs)
         reviews = Review.objects.all()
         context["reviews"] = reviews
+        return context
+
+
+class SingleReviewView(TemplateView):
+    template_name = "reviews/single_review.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        review_id = kwargs["id"]
+        context = super().get_context_data(**kwargs)
+        context["review"] = get_object_or_404(Review, pk=review_id)
         return context
