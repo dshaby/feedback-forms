@@ -1,5 +1,6 @@
 from typing import Any
 from .forms import ReviewForm
+from django.views import View
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
@@ -30,3 +31,9 @@ class ReviewsListView(ListView):
 class SingleReviewView(DetailView):
     model = Review
     template_name = "reviews/single_review.html"
+
+
+class AddFavoriteView(View):
+    def post(self, request):
+        review_id = request.POST['review_id']
+        Review.objects.get(pk=review_id)
