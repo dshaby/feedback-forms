@@ -1,22 +1,15 @@
 from typing import Any
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.views import View
 from .forms import ReviewForm
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView
 from .models import Review
 
 
-class ReviewView(FormView):
+class ReviewView(CreateView):
     form_class = ReviewForm
     template_name = "reviews/review.html"
     success_url = "/thank-you"
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
 
 
 class ThankYouView(TemplateView):
